@@ -23,6 +23,10 @@ public class Person implements Serializable {
     @Column(name = "AGE", nullable = false)
     private Integer age;
 
+    public Document getDocument() {
+        return document;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -30,8 +34,17 @@ public class Person implements Serializable {
                 ", fristName='" + fristName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
+                ", document=" + document +
                 '}';
     }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name ="DOCUMENTE_ID")
+    private Document document;
 
     //TODO ver se tem necesidade de gera os rest code equals
 
