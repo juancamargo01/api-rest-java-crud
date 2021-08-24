@@ -40,5 +40,9 @@ public class Document implements Serializable {
         this.rg = rg;
     }
 
+    @Override
+    public String toString() {
+        return "Document [id=" + id + ", cpf=" + cpf + ", rg=" + rg + "]";
+    }
 }
 

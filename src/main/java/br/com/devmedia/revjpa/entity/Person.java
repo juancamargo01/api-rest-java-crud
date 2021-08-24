@@ -2,6 +2,8 @@ package br.com.devmedia.revjpa.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "PERSONS",
@@ -23,30 +25,32 @@ public class Person implements Serializable {
     @Column(name = "AGE", nullable = false)
     private Integer age;
 
-    public Document getDocument() {
-        return document;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name ="DOCUMENTE_ID")
+    private Document document;
+
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Phone> phones ;
+
+
+
+    public  void addPhone(Phone phone){
+        if (phones == null){
+            phones = new ArrayList<Phone>();
+        }
+        phone.setPerson(this);
+        phones.add(phone);
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", fristName='" + fristName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", document=" + document +
-                '}';
+    public void setPhones(List<Phone> phones) {
+        this.phones = phones;
     }
 
     public void setDocument(Document document) {
         this.document = document;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name ="DOCUMENTE_ID")
-    private Document document;
-
-    //TODO ver se tem necesidade de gera os rest code equals
 
     public Long getId() {return id;}
 
@@ -63,4 +67,20 @@ public class Person implements Serializable {
     public Integer getAge() {return age;}
 
     public void setAge(Integer age) {this.age = age;}
+
+    public Document getDocument() { return document;}
+
+    public List<Phone> getPhones() { return phones; }
+
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", fristName='" + fristName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", document=" + document +
+                '}';
+    }
 }
